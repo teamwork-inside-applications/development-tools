@@ -1,0 +1,30 @@
+@mixin eleFull {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+@mixin flex {
+  display: flex;
+}
+
+@mixin flex-center {
+  @include flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-text-overflow {
+  display: flex;
+
+  > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 0;
+    flex: 1;
+  }
+}

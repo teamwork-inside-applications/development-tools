@@ -1,0 +1,6 @@
+@use "../../../../styles/common";
+
+.project-empty-wrapper {
+  @include common.eleFull;
+  @include common.flex-center;
+}

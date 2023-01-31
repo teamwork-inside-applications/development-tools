@@ -1,25 +1,63 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useCallback, useMemo, useState } from "react";
+import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
+import { Loading } from "tdesign-react";
+import { Header } from "./pages/Header";
+import { firstOrderRouterList, NOT_FOUND_ROUTE_PATH } from "./router";
+import { GlobalData, LoadingInfo } from "./types";
+
+export const GlobalDataContext = React.createContext<GlobalData>({} as any);
 
 function App() {
+  const [loadingInfo, setLoadingInfo] = useState<LoadingInfo>({
+    loading: false,
+  });
+  const routeList = useMemo(() => {
+    return firstOrderRouterList.map((r) => {
+      return <Route path={r.path} element={r.element} key={r.path} />;
+    });
+  }, []);
+
+  const showLoading = useCallback((text?: string) => {
+    setLoadingInfo({
+      loading: true,
+      text,
+    });
+  }, []);
+
+  const hideLoading = useCallback(() => {
+    setLoadingInfo({
+      loading: false,
+    });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <GlobalDataContext.Provider
+      value={{
+        showLoading,
+        hideLoading,
+      }}
+    >
+      <HashRouter>
+        <div className="layout">
+          <Header />
+          <div className="layout-content">
+            <Routes>
+              {routeList}
+              <Route
+                path="*"
+                element={<Navigate to={NOT_FOUND_ROUTE_PATH} />}
+              />
+            </Routes>
+          </div>
+        </div>
+      </HashRouter>
+      <Loading
+        loading={loadingInfo.loading}
+        fullscreen
+        preventScrollThrough={true}
+        text={loadingInfo.text}
+      ></Loading>
+    </GlobalDataContext.Provider>
   );
 }
 

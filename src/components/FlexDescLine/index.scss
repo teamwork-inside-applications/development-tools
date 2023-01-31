@@ -1,0 +1,58 @@
+@use "../../styles/common";
+
+.flex-desc-line {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    background-color: #99ccff;
+    .title {
+      color: #fff;
+    }
+
+    .btn {
+      color: #fff !important;
+      cursor: pointer;
+    }
+  }
+  > div {
+    width: 100%;
+    overflow: hidden;
+
+    &.first-line {
+      display: flex;
+      min-height: 36px;
+
+      > div {
+        @include common.flex-center;
+        @include common.flex-text-overflow;
+
+        &.title {
+          width: 180px;
+          font-size: 16px;
+          font-weight: 600;
+          padding-left: 16px;
+        }
+
+        &.value {
+          justify-content: flex-end;
+          flex-grow: 1;
+        }
+
+        &.operation {
+          width: 88px;
+
+          > .btn {
+            cursor: pointer;
+            color: transparent;
+          }
+        }
+      }
+    }
+
+    &.second-line {
+      min-height: 32px;
+    }
+  }
+}

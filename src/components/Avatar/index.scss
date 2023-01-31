@@ -1,0 +1,63 @@
+@use "../../styles/common";
+
+$defaultSize: 50px;
+$avatarSize: $defaultSize - 8px;
+.avatar-wrapper {
+  width: $defaultSize;
+  height: $defaultSize;
+  background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 8px;
+  > .avatar {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #fff;
+    position: relative;
+
+    > .mask {
+      @include common.flex-center;
+      @include common.eleFull;
+
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.3);
+      display: none;
+      &.show {
+        display: flex;
+      }
+    }
+  }
+}
+
+.avatar-edit-content {
+  > .avatar-edit-wrapper {
+    @include common.flex-center;
+
+    .dropzone {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      border-width: 2px;
+      border-radius: 2px;
+      border-color: #eeeeee;
+      border-style: dashed;
+      background-color: #fafafa;
+      color: #bdbdbd;
+      outline: none;
+      transition: border 0.24s ease-in-out;
+      cursor: pointer;
+      user-select: none;
+    }
+  }
+
+  > .operation-btn-group {
+    margin-top: 18px;
+    display: flex;
+    justify-content: space-around;
+  }
+}

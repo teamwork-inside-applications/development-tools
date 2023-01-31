@@ -1,0 +1,67 @@
+@use "./common";
+
+body,
+#root {
+  @include common.eleFull;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.flex-center {
+  @include common.flex-center;
+}
+
+.layout {
+  @include common.eleFull;
+  display: flex;
+  flex-direction: column;
+
+  > .layout-header {
+    width: 100%;
+    position: relative;
+
+    .t-menu__logo {
+      margin-right: 8px !important;
+      width: 38px;
+      justify-content: flex-end;
+    }
+  }
+
+  > .layout-content {
+    flex-grow: 1;
+    overflow: hidden;
+    padding: 8px 0;
+    position: relative;
+  }
+}
+
+.project-add-popup {
+  @include common.eleFull;
+  bottom: unset;
+  background-color: #dcd9d4;
+  background-image: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(0, 0, 0, 0.5) 100%
+    ),
+    radial-gradient(
+      at 50% 0%,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(0, 0, 0, 0.5) 50%
+    );
+  background-blend-mode: soft-light, screen;
+  transition: all 0.8s;
+  height: 0;
+  @include common.flex-center;
+  &.show {
+    height: 100%;
+  }
+
+  > .form-wrapper {
+    width: 500px;
+  }
+}
