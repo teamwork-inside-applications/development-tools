@@ -10,7 +10,7 @@ import {
 import { Dropdown, DropdownOption, Tabs } from "tdesign-react";
 import { ProjectContext } from "../../../..";
 import { Avatar } from "../../../../../../components/Avatar";
-import { useProjectActiveDialog } from "../../../../../../hooks";
+import { useProjectDeleteActiveDialog } from "../../../../../../hooks";
 import { AppDetails } from "./components/AppDetails";
 
 const { TabPanel } = Tabs;
@@ -18,7 +18,7 @@ const { TabPanel } = Tabs;
 export const AppContent: FC = () => {
   const { activeProjectInfo, refreshProjectList } = useContext(ProjectContext);
   const [deleteDialog, showDeleteDialog] =
-    useProjectActiveDialog(refreshProjectList);
+    useProjectDeleteActiveDialog(refreshProjectList);
   const dropdownClick = useCallback(
     (dropdownItem: DropdownOption) => {
       if (dropdownItem.value !== "delete" || !activeProjectInfo) {

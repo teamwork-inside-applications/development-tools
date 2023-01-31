@@ -267,7 +267,12 @@ export function useProjectActive(): [
   return [activeProjectInfo, switchActiveProject];
 }
 
-export function useProjectActiveDialog(
+/**
+ * 删除当前选中的项目
+ * @param callback 回调方法
+ * @returns [弹窗元素, 展示方法( 要删除的项目 )]
+ */
+export function useProjectDeleteActiveDialog(
   callback?: (projectInfo: ProjectInfo) => void
 ): [React.ReactNode, (projectInfo: ProjectInfo) => void] {
   const [isEndConfirm, setIsEndConfirm] = useState<boolean>(false);
