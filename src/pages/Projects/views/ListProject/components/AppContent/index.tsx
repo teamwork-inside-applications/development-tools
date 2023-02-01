@@ -12,6 +12,8 @@ import { ProjectContext } from "../../../..";
 import { Avatar } from "../../../../../../components/Avatar";
 import { useProjectDeleteActiveDialog } from "../../../../../../hooks";
 import { AppDetails } from "./components/AppDetails";
+import { Developer } from "./components/Develop";
+import { SafetyTab } from "./components/Safety";
 
 const { TabPanel } = Tabs;
 
@@ -96,7 +98,7 @@ export const AppContent: FC = () => {
                   &nbsp; 开发
                 </>
               }
-            ></TabPanel>
+            ><Developer activeProjectInfo={activeProjectInfo} /></TabPanel>
             <TabPanel
               value={2}
               label={
@@ -105,7 +107,7 @@ export const AppContent: FC = () => {
                   &nbsp; 安全
                 </>
               }
-            ></TabPanel>{" "}
+            ><SafetyTab activeProjectInfo={activeProjectInfo}/></TabPanel>{" "}
             <TabPanel
               value={3}
               label={

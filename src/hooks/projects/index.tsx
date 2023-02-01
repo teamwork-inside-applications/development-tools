@@ -46,7 +46,7 @@ export function useProjectList(): [ProjectInfo[], () => void] {
     } catch (e) {
       message.error(
         "查询项目列表失败: " +
-          ((e as Error).message || (typeof e === "string" && e) || "未知的错误")
+        ((e as Error).message || (typeof e === "string" && e) || "未知的错误")
       );
     }
   }, []);
@@ -251,7 +251,7 @@ export function useProjectActive(): [
   const switchActiveProject = useCallback(async (projectInfo: ProjectInfo) => {
     try {
       await db.remove(activeProjectDbKey);
-    } catch (e) {}
+    } catch (e) { }
 
     const activeProject: ProjectInfo = {
       ...projectInfo,
@@ -398,4 +398,46 @@ export function useProjectDeleteActiveDialog(
       setShowDialog(true);
     }, []),
   ];
+}
+
+
+/**
+ * 修改项目信息
+ * @param activeProjectInfo  项目信息
+ * @param refreshProjectList 刷新项目信息
+ * @returns 修改后的值
+ */
+export function useProjectActiveUpdate(activeProjectInfo?: ProjectInfo, refreshProjectList?: () => void, switchActiveProject?: (projectInfo: ProjectInfo)=>void): (val: any, fieldName?: string) => Promise<void> {
+  return async (val, fieldName) => {
+    if (!fieldName || !activeProjectInfo) {
+      return
+    }
+    try {
+      if (!activeProjectInfo.indexInfo) {
+        const nowProjectInfo = await db.get<ProjectInfo>(activeProjectInfo.appInfo.id)
+        if (!nowProjectInfo) {
+          throw new Error("当前项目不存在")
+        }
+        activeProjectInfo.indexInfo = nowProjectInfo.indexInfo
+      }
+
+      activeProjectInfo.indexInfo.dataType = DbDataType.PROJECT_INFO
+
+        ; (activeProjectInfo.appInfo as any)[fieldName] = val;
+      try {
+        await db.remove(activeProjectInfo.appInfo.id)
+      } catch (e) { }
+      await db.put({ ...activeProjectInfo, _rev: undefined, _id: activeProjectInfo.appInfo.id })
+      // if (fieldName !== "name" && fieldName !== "shortDesc" && fieldName !== "icon") {
+      //   return
+      // }
+      // try {p
+      //   await db.remove(activeProjectDbKey)
+      // } catch (e) { }
+      // await db.put({ ...activeProjectInfo, _rev: undefined, _id: activeProjectDbKey })
+      switchActiveProject && switchActiveProject(activeProjectInfo)
+    } finally {
+      refreshProjectList && refreshProjectList()
+    }
+  }
 }

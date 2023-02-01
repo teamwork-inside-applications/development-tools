@@ -82,6 +82,7 @@ export const FlexDescLine: FC<FlexDescLineProps<any>> = ({
   confirmValue,
   disabled,
   className,
+  fieldName
 }) => {
   const [tmpStoreValue, setTmpStoreValue] = useState<any>(undefined);
 
@@ -116,9 +117,9 @@ export const FlexDescLine: FC<FlexDescLineProps<any>> = ({
   }, []);
 
   const okClick = useCallback(() => {
-    confirmValue && confirmValue(tmpStoreValue);
+    confirmValue && confirmValue(tmpStoreValue, fieldName);
     setReadonly(true);
-  }, [confirmValue, tmpStoreValue]);
+  }, [confirmValue, tmpStoreValue, fieldName]);
 
   return (
     <div className={classNames("flex-desc-line", className)}>
