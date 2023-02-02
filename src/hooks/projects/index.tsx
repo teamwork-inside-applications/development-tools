@@ -407,7 +407,11 @@ export function useProjectDeleteActiveDialog(
  * @param refreshProjectList 刷新项目信息
  * @returns 修改后的值
  */
-export function useProjectActiveUpdate(activeProjectInfo?: ProjectInfo, refreshProjectList?: () => void, switchActiveProject?: (projectInfo: ProjectInfo)=>void): (val: any, fieldName?: string) => Promise<void> {
+export function useProjectActiveUpdate(
+  activeProjectInfo?: ProjectInfo,
+  refreshProjectList?: () => void,
+  switchActiveProject?: (projectInfo: ProjectInfo) => void)
+  : (val: any, fieldName?: string) => Promise<void> {
   return async (val, fieldName) => {
     if (!fieldName || !activeProjectInfo) {
       return
@@ -420,24 +424,20 @@ export function useProjectActiveUpdate(activeProjectInfo?: ProjectInfo, refreshP
         }
         activeProjectInfo.indexInfo = nowProjectInfo.indexInfo
       }
-
       activeProjectInfo.indexInfo.dataType = DbDataType.PROJECT_INFO
-
         ; (activeProjectInfo.appInfo as any)[fieldName] = val;
       try {
         await db.remove(activeProjectInfo.appInfo.id)
       } catch (e) { }
       await db.put({ ...activeProjectInfo, _rev: undefined, _id: activeProjectInfo.appInfo.id })
-      // if (fieldName !== "name" && fieldName !== "shortDesc" && fieldName !== "icon") {
-      //   return
-      // }
-      // try {p
-      //   await db.remove(activeProjectDbKey)
-      // } catch (e) { }
-      // await db.put({ ...activeProjectInfo, _rev: undefined, _id: activeProjectDbKey })
       switchActiveProject && switchActiveProject(activeProjectInfo)
     } finally {
       refreshProjectList && refreshProjectList()
     }
   }
+}
+
+export function useProjectActiveTreeData():[]{
+  
+  return []
 }

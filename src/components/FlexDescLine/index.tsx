@@ -99,6 +99,7 @@ export const FlexDescLine: FC<FlexDescLineProps<any>> = ({
         setTmpStoreValue(val);
       },
     };
+
   }, [readonly, tmpStoreValue]);
 
   const valueElement = useMemo(() => {
